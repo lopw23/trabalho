@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dossiê de Diagnóstico de Interface — Usabilidade e Acessibilidade (WCAG 2.2)</title>
+  <style>
+    :root{
+      --text:#111;
+      --muted:#444;
+      --line:#e5e5e5;
+      --accent:#0b57d0;
+      --bg:#fff;
+      --callout:#b00020;
+    }
+    html,body{background:var(--bg); color:var(--text); font-family: Arial, Helvetica, sans-serif; line-height:1.35;}
+    body{max-width: 980px; margin: 24px auto; padding: 0 18px;}
+    h1,h2,h3{line-height:1.15; margin: 18px 0 10px;}
+    h1{font-size: 28px;}
+    h2{font-size: 20px; border-top: 2px solid var(--line); padding-top: 14px; margin-top: 22px;}
+    h3{font-size: 16px; margin-top: 16px;}
+    p,li{font-size: 12.5pt;}
+    .small{font-size: 11.5pt; color:var(--muted);}
+    .meta{border:1px solid var(--line); padding:12px; border-radius:10px;}
+    .toc a{color: var(--accent); text-decoration: none;}
+    .toc a:hover{text-decoration: underline;}
+    .figure{border:1px solid var(--line); border-radius: 12px; padding: 12px; margin: 14px 0;}
+    .figure img{width:100%; height:auto; display:block; border-radius: 8px; border:1px solid #f1f1f1;}
+    .caption{margin-top:10px; font-size: 11.5pt; color: var(--muted);}
+    .callouts{margin-top:10px;}
+    .callouts li{margin: 6px 0;}
+    .tag{display:inline-block; padding: 1px 8px; border-radius: 999px; border:1px solid var(--line); font-size: 10.5pt; color: var(--muted); margin-left:6px;}
+    .sev{font-weight:bold; color: var(--callout);}
+    .table{width:100%; border-collapse: collapse; font-size: 11.5pt;}
+    .table th,.table td{border:1px solid var(--line); padding:8px; vertical-align: top;}
+    .table th{background:#fafafa; text-align:left;}
+    .pagebreak{page-break-before: always;}
+    @media print{
+      body{margin: 0; max-width: none;}
+      a{color:inherit; text-decoration:none;}
+      .pagebreak{page-break-before: always;}
+      .figure{break-inside: avoid;}
+      .meta{break-inside: avoid;}
+    }
+    code{font-family: "Courier New", monospace; font-size: 10.8pt;}
+  </style>
+</head>
+
+<body>
+
+  <!-- CAPA -->
+  <section class="meta">
+    <h1>Dossiê de Diagnóstico de Interface</h1>
+    <p><strong>Auditoria de Usabilidade + Acessibilidade (WCAG 2.2)</strong></p>
+    <p class="small">
+      <strong>Sistemas analisados:</strong> (1) Airbnb (web) • (2) Portal “Serviços da Receita Federal” (web)<br/>
+      <strong>Entrega:</strong> documento HTML offline pronto para impressão em PDF (Ctrl+P → Salvar em PDF).<br/>
+      <strong>Fonte das imagens:</strong capturas fornecidas pelo estudante (Airbnb) e capturas do Portal de Serviços da Receita Federal.
+    </p>
+    <p class="small"><strong>Observação:</strong> As “anotações visuais” são apresentadas como <strong>callouts numerados</strong> por figura (ex.: [A3-2], [R6-1]) para leitura e verificação no PDF.</p>
+  </section>
+
+  <!-- SUMÁRIO -->
+  <section class="toc">
+    <h2 id="sumario">Sumário</h2>
+    <ol>
+      <li><a href="#metodologia">Metodologia</a></li>
+      <li><a href="#airbnb">Sistema 1 — Airbnb (Web)</a></li>
+      <li><a href="#receita">Sistema 2 — Serviços da Receita Federal (Web)</a></li>
+      <li><a href="#consolidado">Tabela consolidada de achados</a></li>
+      <li><a href="#recomendacoes">Recomendações priorizadas</a></li>
+      <li><a href="#dissertativo">Texto dissertativo final</a></li>
+    </ol>
+  </section>
+
+  <section id="metodologia">
+    <h2>1) Metodologia</h2>
+    <h3>1.1 Objetivo</h3>
+    <p>Identificar barreiras de <strong>usabilidade</strong> e <strong>acessibilidade</strong> que dificultam a conclusão de tarefas, com foco em <strong>usuários sob estresse</strong> (pressa, risco financeiro/legal, baixa conectividade, fadiga, baixa familiaridade digital).</p>
+
+    <h3>1.2 Base normativa e critérios</h3>
+    <p>
+      Referência principal: <strong>WCAG 2.2</strong>. Critérios frequentemente associados aos achados neste dossiê:
+      <span class="tag">1.1.1 Texto alternativo</span>
+      <span class="tag">1.3.1 Info e relações</span>
+      <span class="tag">1.4.1 Uso de cor</span>
+      <span class="tag">1.4.3 Contraste (mínimo)</span>
+      <span class="tag">1.4.10 Reflow</span>
+      <span class="tag">1.4.12 Espaçamento de texto</span>
+      <span class="tag">2.1.1 Teclado</span>
+      <span class="tag">2.4.3 Ordem do foco</span>
+      <span class="tag">2.4.7 Foco visível</span>
+      <span class="tag">2.4.11 Foco não obscurecido (mín.)</span>
+      <span class="tag">2.5.3 Rótulo no nome</span>
+      <span class="tag">2.5.8 Tamanho do alvo (mín.)</span>
+      <span class="tag">3.2.3 Navegação consistente</span>
+      <span class="tag">3.3.2 Rótulos/instruções</span>
+      <span class="tag">4.1.2 Nome, função, valor</span>
+    </p>
+
+    <h3>1.3 Severidade</h3>
+    <ul>
+      <li><span class="sev">Crítica</span>: impede concluir tarefa / alto risco (erro financeiro/legal).</li>
+      <li><span class="sev">Alta</span>: dificulta significativamente / abandono frequente.</li>
+      <li><span class="sev">Média</span>: atrito recorrente, mas contornável.</li>
+      <li><span class="sev">Baixa</span>: incômodo pontual.</li>
+    </ul>
+  </section>
+
+  <div class="pagebreak"></div>
+
+  <!-- AIRBNB -->
+  <section id="airbnb">
+    <h2>2) Sistema 1 — Airbnb (Web)</h2>
+
+    <h3>2.1 Contexto e estresse</h3>
+    <p>Usuário planejando hospedagem/experiência sob pressão de tempo e orçamento (comparação rápida, medo de errar datas/hóspedes e necessidade de confirmação). Em estresse, aumentam erros por <em>carga cognitiva</em>, baixa legibilidade e controles pequenos.</p>
+
+    <h3>2.2 Jornada — ordem ideal (telas fornecidas)</h3>
+
+    <div class="figure" id="A1">
+      <img alt="Figura A1 — Airbnb: Página inicial com barra de busca (Onde/Quando/Quem)." src="images/A1.jpeg">
+      <div class="caption"><strong>Figura A1 — Página inicial: busca “Onde / Quando / Quem”.</strong></div>
+      <ul class="callouts">
+        <li><strong>[A1-1]</strong> Placeholders e textos cinza podem ter contraste insuficiente. <span class="tag">WCAG 1.4.3</span> <span class="sev">Alta</span></li>
+        <li><strong>[A1-2]</strong> Se rótulos dependerem do placeholder, há risco de perder contexto ao digitar (rótulos/instruções). <span class="tag">WCAG 3.3.2</span> <span class="sev">Alta</span></li>
+        <li><strong>[A1-3]</strong> Ícones no cabeçalho (idioma/menu) podem carecer de rótulo visível e nome acessível. <span class="tag">WCAG 2.5.3 / 4.1.2</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="A2">
+      <img alt="Figura A2 — Airbnb: Dropdown de destinos sugeridos ao preencher campo Onde." src="images/A2.jpeg">
+      <div class="caption"><strong>Figura A2 — Dropdown de “Destinos sugeridos”.</strong></div>
+      <ul class="callouts">
+        <li><strong>[A2-1]</strong> Destaque de seleção pode depender de cor; precisa alternativa (ícone/linha/contraste). <span class="tag">WCAG 1.4.1</span> <span class="sev">Média</span></li>
+        <li><strong>[A2-2]</strong> Ordem e visibilidade do foco no teclado precisam ser claras na lista. <span class="tag">WCAG 2.4.3 / 2.4.7</span> <span class="sev">Média/Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="A3">
+      <img alt="Figura A3 — Airbnb: Seletor de datas com calendário e abas Datas/Meses/Flexível." src="images/A3.jpeg">
+      <div class="caption"><strong>Figura A3 — Seletor de datas (calendário).</strong></div>
+      <ul class="callouts">
+        <li><strong>[A3-1]</strong> Dias desabilitados em cinza podem não atingir contraste mínimo. <span class="tag">WCAG 1.4.3</span> <span class="sev">Média</span></li>
+        <li><strong>[A3-2]</strong> Estados (intervalo/seleção/indisponível) não devem depender apenas de cor. <span class="tag">WCAG 1.4.1</span> <span class="sev">Alta</span></li>
+        <li><strong>[A3-3]</strong> Setas para mudar mês podem ser alvo pequeno para toque. <span class="tag">WCAG 2.5.8</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="A4">
+      <img alt="Figura A4 — Airbnb: Modal de seleção de hóspedes com botões de mais e menos." src="images/A4.jpeg">
+      <div class="caption"><strong>Figura A4 — Modal de hóspedes (Adultos/Crianças/Bebês/Animais).</strong></div>
+      <ul class="callouts">
+        <li><strong>[A4-1]</strong> Botões “+/-” precisam de nome acessível e rótulo claro (“Adicionar adulto”). <span class="tag">WCAG 4.1.2 / 2.5.3</span> <span class="sev">Alta</span></li>
+        <li><strong>[A4-2]</strong> Alvos pequenos e contraste baixo aumentam erros sob estresse. <span class="tag">WCAG 2.5.8 / 1.4.3</span> <span class="sev">Alta</span></li>
+        <li><strong>[A4-3]</strong> Modal deve ter foco visível e manejo correto de foco (não “perder” tabulação). <span class="tag">WCAG 2.4.7 / 2.4.3</span> <span class="sev">Média/Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="A5">
+      <img alt="Figura A5 — Airbnb: Lista de acomodações muito procuradas (cards)." src="images/A5.jpeg">
+      <div class="caption"><strong>Figura A5 — Lista de acomodações (cards).</strong></div>
+      <ul class="callouts">
+        <li><strong>[A5-1]</strong> Botão “favoritar” (coração) pode ser alvo pequeno e gerar toques acidentais. <span class="tag">WCAG 2.5.8</span> <span class="sev">Média</span></li>
+        <li><strong>[A5-2]</strong> Metadados (preço/avaliação) podem ficar pequenos/baixo contraste, prejudicando comparação. <span class="tag">WCAG 1.4.3 / 1.4.12</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="A6">
+      <img alt="Figura A6 — Airbnb: Página do anúncio com galeria de fotos." src="images/A6.jpeg">
+      <div class="caption"><strong>Figura A6 — Página do anúncio (galeria).</strong></div>
+      <ul class="callouts">
+        <li><strong>[A6-1]</strong> Botões sobrepostos à imagem (“Mostrar todas as fotos”) podem obscurecer foco/conteúdo. <span class="tag">WCAG 2.4.11</span> <span class="sev">Média</span></li>
+        <li><strong>[A6-2]</strong> Ordem de leitura/tabulação precisa manter previsibilidade. <span class="tag">WCAG 2.4.3</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="A7">
+      <img alt="Figura A7 — Airbnb: Painel lateral com total, datas, hóspedes e botão Reservar." src="images/A7.jpeg">
+      <div class="caption"><strong>Figura A7 — Painel de reserva (Total e botão Reservar).</strong></div>
+      <ul class="callouts">
+        <li><strong>[A7-1]</strong> Transparência: “Total” precisa de detalhamento facilmente acessível antes do CTA. <span class="sev">Alta</span></li>
+        <li><strong>[A7-2]</strong> Informação crítica (cancelamento/condições) deve ser clara e legível (sem depender de texto pequeno). <span class="tag">WCAG 1.4.3 / 3.3.2</span> <span class="sev">Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="A8">
+      <img alt="Figura A8 — Airbnb: Experiências muito procuradas em São Paulo (carrossel de cards)." src="images/A8.jpeg">
+      <div class="caption"><strong>Figura A8 — Carrossel de experiências (cards).</strong></div>
+      <ul class="callouts">
+        <li><strong>[A8-1]</strong> Carrossel: risco de baixa operabilidade por teclado e foco confuso. <span class="tag">WCAG 2.1.1 / 2.4.3</span> <span class="sev">Alta</span></li>
+        <li><strong>[A8-2]</strong> Ícones (favoritar) sem rótulo visível podem falhar em “rótulo no nome”. <span class="tag">WCAG 2.5.3 / 4.1.2</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="A9">
+      <img alt="Figura A9 — Airbnb: Carrossel Chefs." src="images/A9.jpeg">
+      <div class="caption"><strong>Figura A9 — Carrossel “Chefs”.</strong></div>
+      <ul class="callouts">
+        <li><strong>[A9-1]</strong> Repetição de padrão de carrossel: risco semelhante de teclado/foco e excesso de informação. <span class="tag">WCAG 2.1.1 / 2.4.7</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="A10">
+      <img alt="Figura A10 — Airbnb: Tela 'O que você gostaria de anunciar?'" src="images/A10.jpeg">
+      <div class="caption"><strong>Figura A10 — “O que você gostaria de anunciar?”</strong></div>
+      <ul class="callouts">
+        <li><strong>[A10-1]</strong> Cards grandes são positivos, mas devem manter nomes acessíveis e foco visível. <span class="tag">WCAG 4.1.2 / 2.4.7</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+  </section>
+
+  <div class="pagebreak"></div>
+
+  <!-- RECEITA -->
+  <section id="receita">
+    <h2>3) Sistema 2 — Serviços da Receita Federal (Web)</h2>
+    <p class="small">
+      Link informado pelo estudante: <code>https://servicos.receitafederal.gov.br/lista-grupo?categoria=2</code><br/>
+      Observação: as capturas apresentam o portal “Serviços da Receita Federal” e grupos de serviços (CPF, Imposto de Renda, Outras Declarações, Dívidas, Intimações etc.).
+    </p>
+
+    <h3>3.1 Contexto crítico e estresse</h3>
+    <p>Usuário cidadão tentando resolver: situação de CPF, dívidas/regularidade, certidões, intimações. Estresse elevado por prazos e risco de sanções. O portal precisa reduzir ambiguidade e guiar por tarefas.</p>
+
+    <h3>3.2 Jornada — telas fornecidas</h3>
+
+    <div class="figure" id="R1">
+      <img alt="Figura R1 — Receita Federal: Tela de entrada Acesse gov.br / Entrar com gov.br." src="images/R1.jpeg">
+      <div class="caption"><strong>Figura R1 — Entrada / autenticação gov.br.</strong></div>
+      <ul class="callouts">
+        <li><strong>[R1-1]</strong> Deve ficar explícito o que é público vs. restrito (por que precisa login). <span class="sev">Crítica</span></li>
+        <li><strong>[R1-2]</strong> Elementos no topo (ícones) precisam rótulo e nome acessível. <span class="tag">WCAG 2.5.3 / 4.1.2</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R2">
+      <img alt="Figura R2 — Receita Federal: Grid de cards CPF, Imposto de Renda, Outras Declarações etc." src="images/R2.jpeg">
+      <div class="caption"><strong>Figura R2 — Lista por cards (categorias).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R2-1]</strong> Links/botões genéricos “Acessar” repetidos prejudicam compreensão e navegação. <span class="tag">WCAG 2.4.6 (rótulos) / boas práticas</span> <span class="sev">Alta</span></li>
+        <li><strong>[R2-2]</strong> Texto longo em cinza pode reduzir legibilidade. <span class="tag">WCAG 1.4.3 / 1.4.12</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R3">
+      <img alt="Figura R3 — Receita Federal: Serviços para Pessoas Físicas com ícones (CPF, DARF, Dívidas etc.)." src="images/R3.jpeg">
+      <div class="caption"><strong>Figura R3 — Serviços para Pessoas Físicas (atalhos por ícones).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R3-1]</strong> Cadeado sem legenda pode ser ambíguo (restrito? seguro? requer login?). <span class="sev">Alta</span></li>
+        <li><strong>[R3-2]</strong> Alvos de toque e foco precisam ser claros em cada atalho. <span class="tag">WCAG 2.5.8 / 2.4.7</span> <span class="sev">Média/Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R4">
+      <img alt="Figura R4 — Receita Federal: Página Imposto de Renda com atalhos." src="images/R4.jpeg">
+      <div class="caption"><strong>Figura R4 — “Imposto de Renda” (múltiplas opções).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R4-1]</strong> Muitos serviços com nomes técnicos: risco alto de seleção errada sob estresse. <span class="sev">Alta</span></li>
+        <li><strong>[R4-2]</strong> Precisaria de orientação por tarefa (“Quero consultar restituição”, “Quero declarar”). <span class="sev">Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R5">
+      <img alt="Figura R5 — Receita Federal: Página Dívidas / Regularidade Fiscal." src="images/R5.jpeg">
+      <div class="caption"><strong>Figura R5 — “Dívidas” (Regularidade Fiscal).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R5-1]</strong> Tema crítico: portal deve priorizar caminhos principais (consultar, pagar, parcelar) com linguagem simples. <span class="sev">Crítica</span></li>
+        <li><strong>[R5-2]</strong> Ícones/atalhos precisam indicar claramente restrição de login e consequência da ação. <span class="sev">Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R6">
+      <img alt="Figura R6 — Receita Federal: Página Intimações e Notificações." src="images/R6.jpeg">
+      <div class="caption"><strong>Figura R6 — “Intimações e Notificações”.</strong></div>
+      <ul class="callouts">
+        <li><strong>[R6-1]</strong> Muitas opções similares aumentam carga cognitiva e chance de erro. <span class="sev">Alta</span></li>
+        <li><strong>[R6-2]</strong> Terminologia (“Per/Dcomp”, “Compensações de ofício”) pede ajuda contextual. <span class="sev">Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R7">
+      <img alt="Figura R7 — Receita Federal: Página Outras Declarações." src="images/R7.jpeg">
+      <div class="caption"><strong>Figura R7 — “Outras Declarações”.</strong></div>
+      <ul class="callouts">
+        <li><strong>[R7-1]</strong> Agrupamento heterogêneo pode confundir (bagagem, ativos, dados). <span class="sev">Alta</span></li>
+        <li><strong>[R7-2]</strong> Cadeado sem explicação mantém ambiguidade de acesso/restrição. <span class="sev">Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R8">
+      <img alt="Figura R8 — Receita Federal: Página Endereço (CPF)." src="images/R8.jpeg">
+      <div class="caption"><strong>Figura R8 — “Endereço (Cadastro de Pessoas Físicas)”.</strong></div>
+      <ul class="callouts">
+        <li><strong>[R8-1]</strong> “Domicílio tributário eletrônico” e similares precisam definição simples e exemplos. <span class="sev">Alta</span></li>
+        <li><strong>[R8-2]</strong> Rótulos e instruções devem ser diretos para evitar erro com impacto legal. <span class="tag">WCAG 3.3.2</span> <span class="sev">Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R9">
+      <img alt="Figura R9 — Receita Federal: Seção 'Não encontrou?' com orientação para usar busca e menu." src="images/R9.jpeg">
+      <div class="caption"><strong>Figura R9 — “Não encontrou?” (orientação de busca e menu).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R9-1]</strong> A orientação “use a busca no topo” é útil, mas aparece tarde (após rolagem). Em estresse, a <em>busca</em> deveria estar mais evidente e próxima do início do fluxo. <span class="sev">Alta</span></li>
+        <li><strong>[R9-2]</strong> Ícones citados no texto (lupa/menu) precisam ser identificáveis com rótulo/tooltip e nome acessível para leitores de tela. <span class="tag">WCAG 2.5.3 / 4.1.2</span> <span class="sev">Média</span></li>
+        <li><strong>[R9-3]</strong> Garantir foco visível e navegação por teclado para a busca e menu (evitar “perder” o usuário no topo). <span class="tag">WCAG 2.1.1 / 2.4.7</span> <span class="sev">Média/Alta</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R10">
+      <img alt="Figura R10 — Receita Federal: captura adicional." src="images/R10.jpeg">
+      <div class="caption"><strong>Figura R10 — Captura adicional (Receita Federal).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R10-1]</strong> Verificar se há sobreposição de widget/elementos flutuantes sobre conteúdo e foco. <span class="tag">WCAG 2.4.11</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R11">
+      <img alt="Figura R11 — Receita Federal: captura adicional." src="images/R11.jpeg">
+      <div class="caption"><strong>Figura R11 — Captura adicional (Receita Federal).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R11-1]</strong> Checar contraste, foco visível e clareza de rótulos no fluxo exibido. <span class="tag">WCAG 1.4.3 / 2.4.7</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R12">
+      <img alt="Figura R12 — Receita Federal: captura adicional." src="images/R12.jpeg">
+      <div class="caption"><strong>Figura R12 — Captura adicional (Receita Federal).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R12-1]</strong> Checar se botões e links têm nomes específicos (evitar genéricos). <span class="tag">WCAG 2.4.6 / 4.1.2</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R13">
+      <img alt="Figura R13 — Receita Federal: captura adicional." src="images/R13.jpeg">
+      <div class="caption"><strong>Figura R13 — Captura adicional (Receita Federal).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R13-1]</strong> Atenção a linguagem técnica e necessidade de ajuda contextual. <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R14">
+      <img alt="Figura R14 — Receita Federal: captura adicional." src="images/R14.jpeg">
+      <div class="caption"><strong>Figura R14 — Captura adicional (Receita Federal).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R14-1]</strong> Checar consistência de navegação e rótulos (mesmos padrões em páginas diferentes). <span class="tag">WCAG 3.2.3</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+    <div class="figure" id="R15">
+      <img alt="Figura R15 — Receita Federal: captura adicional." src="images/R15.jpeg">
+      <div class="caption"><strong>Figura R15 — Captura adicional (Receita Federal).</strong></div>
+      <ul class="callouts">
+        <li><strong>[R15-1]</strong> Checar se componentes interativos têm foco não obscurecido e boa ordem de foco. <span class="tag">WCAG 2.4.11 / 2.4.3</span> <span class="sev">Média</span></li>
+      </ul>
+    </div>
+
+  </section>
+
+  <div class="pagebreak"></div>
+
+  <!-- CONSOLIDADO -->
+  <section id="consolidado">
+    <h2>4) Tabela consolidada de achados</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Sistema</th>
+          <th>Achado principal</th>
+          <th>WCAG 2.2 (referências)</th>
+          <th>Severidade</th>
+          <th>Impacto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Airbnb</td>
+          <td>Estados em calendário/hóspedes dependem de cor e controles pequenos</td>
+          <td>1.4.1, 1.4.3, 2.5.8</td>
+          <td class="sev">Alta</td>
+          <td>Erro em datas/hóspedes, retrabalho, abandono</td>
+        </tr>
+        <tr>
+          <td>Airbnb</td>
+          <td>Carrosséis (experiências/chefs) com risco para teclado e foco</td>
+          <td>2.1.1, 2.4.3, 2.4.7</td>
+          <td class="sev">Alta/Média</td>
+          <td>Dificuldade de exploração e comparação</td>
+        </tr>
+        <tr>
+          <td>Receita</td>
+          <td>Links genéricos “Acessar” e linguagem técnica dificultam descoberta do serviço</td>
+          <td>3.3.2, 2.4.6 (rótulos), boas práticas</td>
+          <td class="sev">Alta</td>
+          <td>Seleção errada, tempo perdido, busca por atendimento presencial</td>
+        </tr>
+        <tr>
+          <td>Receita</td>
+          <td>Autenticação/restrição (cadeado) sem explicação clara</td>
+          <td>3.3.2</td>
+          <td class="sev">Crítica</td>
+          <td>Frustração, abandono, risco de não resolver pendências</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- RECOMENDAÇÕES -->
+  <section id="recomendacoes">
+    <h2>5) Recomendações priorizadas</h2>
+
+    <h3>Prioridade 1 — reduzir risco imediato</h3>
+    <ul>
+      <li><strong>Rótulos e links específicos:</strong> evitar “Acessar” sem contexto; usar “Acessar serviços de CPF”, “Consultar restituição de IRPF”, etc.</li>
+      <li><strong>Transparência antes de ação crítica:</strong> custo total e condições claramente apresentadas antes do CTA (Airbnb); exigência de login e motivo explicados (Receita).</li>
+    </ul>
+
+    <h3>Prioridade 2 — inclusão e conformidade (WCAG 2.2)</h3>
+    <ul>
+      <li><strong>Contraste e legibilidade:</strong> revisar textos cinza, estados desabilitados, metadados e instruções. <span class="tag">1.4.3</span></li>
+      <li><strong>Teclado e foco:</strong> foco visível, ordem do foco previsível, overlays sem aprisionar navegação. <span class="tag">2.1.1 / 2.4.3 / 2.4.7 / 2.4.11</span></li>
+      <li><strong>Tamanho do alvo:</strong> aumentar alvos de toque (principalmente +/- e ícones). <span class="tag">2.5.8</span></li>
+      <li><strong>Não depender só de cor:</strong> usar ícones/padrões/texto para estados e seleção. <span class="tag">1.4.1</span></li>
+    </ul>
+
+    <h3>Prioridade 3 — reduzir carga cognitiva sob estresse</h3>
+    <ul>
+      <li><strong>Orientação por tarefas:</strong> “O que você precisa fazer?” com trilhas guiadas (Receita).</li>
+      <li><strong>Microcopy objetiva:</strong> explicar termos técnicos e consequências (“Domicílio Tributário Eletrônico”, “Per/Dcomp”).</li>
+    </ul>
+  </section>
+
+  <div class="pagebreak"></div>
+
+  <!-- DISSERTATIVO -->
+  <section id="dissertativo">
+    <h2>6) Texto dissertativo final (impactos técnico, ético e social)</h2>
+
+    <p>
+      A auditoria de usabilidade e acessibilidade realizada em dois sistemas digitais — um serviço de consumo (Airbnb) e um serviço público crítico (Portal de Serviços da Receita Federal) — evidencia que falhas de interface não são apenas questões estéticas: elas determinam se o usuário consegue concluir tarefas, com impactos diretos em custo, segurança e inclusão. Ao observar a jornada por múltiplas telas (busca, filtros, seleção de datas e hóspedes, detalhe de anúncio e decisão de reserva; e, no caso da Receita Federal, navegação por categorias de serviço, identificação do serviço correto e acesso via autenticação), percebe-se que os principais pontos de atrito recaem sobre compreensão, previsibilidade e controle. Esses fatores se tornam ainda mais críticos quando o usuário está sob estresse, pressão de tempo, baixa conectividade ou risco financeiro/legal.
+    </p>
+
+    <p>
+      Do ponto de vista <strong>técnico</strong>, barreiras como contraste insuficiente, estados comunicados somente por cor, elementos interativos pequenos e carrosséis com navegação complexa aumentam erros e retrabalho e elevam a taxa de abandono. Em acessibilidade, problemas mapeáveis pela <strong>WCAG 2.2</strong> — como foco de teclado pouco evidente (2.4.7), dependência de cor para estados (1.4.1), contraste mínimo não atendido (1.4.3), alvos de toque pequenos (2.5.8) e controles com rótulos inadequados para tecnologias assistivas (4.1.2/2.5.3) — prejudicam não apenas pessoas com deficiência, mas qualquer usuário em contexto adverso. No serviço público, onde tarefas envolvem consulta de pendências, certidões e intimações, a consequência técnica de uma navegação pouco clara é grave: o usuário pode não encontrar o serviço correto, interpretar equivocadamente a exigência de login ou perder tempo em tentativa e erro, aumentando demanda por suporte e sobrecarregando canais presenciais e telefônicos.
+    </p>
+
+    <p>
+      Os <strong>impactos éticos</strong> aparecem quando a interface reduz autonomia e entendimento do usuário. No Airbnb, a combinação de informação densa, hierarquia limitada e destaque forte para o call-to-action pode induzir decisões apressadas antes da plena compreensão de preço total e condições, o que pode resultar em frustração e prejuízo. Na Receita Federal, a ética do design se conecta à obrigação do Estado de oferecer acesso equitativo: rótulos genéricos, termos técnicos sem explicação e sinalizações ambíguas (como cadeados sem legenda) criam barreiras informacionais que afetam desproporcionalmente cidadãos com menor letramento digital. Quando requisitos de percepção e operação não são atendidos, o serviço existe, mas não é utilizável por todos, configurando exclusão funcional.
+    </p>
+
+    <p>
+      Os <strong>impactos sociais</strong> são ampliados porque as plataformas atingem dimensões essenciais da vida: deslocamento/moradia temporária e obrigações legais e fiscais. Usuários sob estresse tendem a ter menor tolerância à ambiguidade e menor capacidade de exploração. Nesse cenário, pequenos problemas (contraste, foco invisível, mudanças de estado pouco claras, textos longos sem destacar o essencial) tornam-se obstáculos reais, levando à desistência, atrasos ou decisões mal informadas. Em escala, isso reforça desigualdades: quem tem tempo, melhor equipamento e maior familiaridade digital supera barreiras; quem não tem, fica para trás.
+    </p>
+
+    <p>
+      Conclui-se que corrigir falhas de usabilidade e acessibilidade, guiando-se pela <strong>WCAG 2.2</strong> e por design centrado no usuário, não é apenas melhorar a interface: é reduzir erros, aumentar eficiência, diminuir suporte e promover inclusão. Em sistemas críticos, acessibilidade deve ser tratada como requisito de qualidade e responsabilidade social, pois a interface é o ponto onde necessidades, direitos e deveres se tornam ações possíveis — ou impossíveis — para o cidadão.
+    </p>
+  </section>
+
+
+</body>
+</html>
